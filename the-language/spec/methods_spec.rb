@@ -93,15 +93,28 @@ RSpec.describe "methods in ruby" do
       self.the_private_method
     end
 
+    protected
+    def the_protected_method
+      :the_protected_value
+    end
+
     private
     def the_private_method
       :the_private_value
     end
   end
 
+  class AnotherClass < MyClass
+    def calls_a_protected_method(other)
+      other.the_protected_method
+    end
+  end
+
+
   context "methods on objects" do
 
     let(:an_object) { MyClass.new }
+    let(:another_object) { AnotherClass.new }
 
     it "is possible to call methods on objects" do
       expect( an_object.the_method ).to eq( :the_value )
@@ -128,6 +141,13 @@ RSpec.describe "methods in ruby" do
       expect { an_object.calls_the_private_method_on_self }.to raise_error( NoMethodError, /method/ )
     end
 
+    it "allows objects to call protected methods" do
+      expect{ an_object.the_protected_method }.to raise_error(NoMethodError)
+    end
+
+    it "allows protected methods to be called by sub-classes of the parent" do
+      expect( another_object.calls_a_protected_method(an_object) ).to eq( :the_protected_value )
+    end
   end
 
 end
