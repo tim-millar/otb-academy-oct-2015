@@ -171,4 +171,9 @@ END
     expect( a == b ).to eq( true )
     expect( a.object_id == b.object_id ).to eq( false )
   end
+
+  it "has a method called succ" do
+    expect( "a".succ ).to eq( "b" )
+  end
+  
 end
