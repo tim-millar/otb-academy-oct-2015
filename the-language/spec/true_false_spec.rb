@@ -21,7 +21,7 @@ RSpec.describe "Ruby's True and False" do
 
   it "treats everything else as truthy" do
     expect( truth_value(1) ).to eq( :true_stuff )
-    expect( truth_value(0) ).to eq( :true_stuff_ )
+    expect( truth_value(0) ).to eq( :true_stuff )
     expect( truth_value([]) ).to eq(  :true_stuff )
     expect( truth_value({}) ).to eq(  :true_stuff )
     expect( truth_value("Strings") ).to eq(  :true_stuff )
