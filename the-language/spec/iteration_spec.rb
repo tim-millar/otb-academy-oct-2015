@@ -64,7 +64,7 @@ RSpec.describe "iterating in ruby" do
     result2 = [2, 3, 4].inject(1) { |product, item| product * item }
     expect( result2 ).to eq( 24 )
 
-    # WT*: left fold over an array
+    # WT*: left fold over a collection
     # Describe in your own words what inject does.
   end
 
