@@ -28,7 +28,24 @@
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  freqs = Hash.new(0)
+  result = 0
+  dice.each do |x|
+    freqs[x] = dice.count(x)
+  end
+  freqs.each do |key, value|
+    if value >= 3 && key == 1
+      result += 1000 + (value - 3)*100
+    elsif value >= 3
+      result += key*100
+      result += (freqs[key] - 3)*50  if key == 5
+      result += freqs[key]*100 if key == 1
+    else
+      result += freqs[key]*50  if key == 5
+      result += freqs[key]*100 if key == 1
+    end
+  end
+  result
 end
 
 RSpec.describe "scorign a game of greed" do
@@ -73,4 +90,3 @@ RSpec.describe "scorign a game of greed" do
   end
 
 end
-
