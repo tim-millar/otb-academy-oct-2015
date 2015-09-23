@@ -30,8 +30,8 @@
 def score(dice)
   freqs = Hash.new(0)
   result = 0
-  dice.each do |x|
-    freqs[x] = dice.count(x)
+  dice.each do |die|
+    freqs[die] = dice.count(die)
   end
   freqs.each do |key, value|
     if value >= 3 && key == 1
