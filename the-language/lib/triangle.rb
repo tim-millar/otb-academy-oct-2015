@@ -14,7 +14,12 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
-  if (a==b && b==c)
+  z,x,y = [a,b,c].sort.reverse
+  if z >= x + y
+    raise TriangleError
+  elsif z <= 0
+    raise TriangleError
+  elsif (a==b && b==c)
     :equilateral
   elsif (a==b || b==c || a==c)
     :isosceles
