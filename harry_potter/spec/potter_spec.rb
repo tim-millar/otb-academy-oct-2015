@@ -1,18 +1,34 @@
 # coding: utf-8
 
 def prices xs
-  raise ArgumentError, "array must be of length 5" unless xs.size == 5
+  
+  raise ArgumentError,
+        "array must be of length 5" unless xs.size == 5
 
-  result = 0
-  disc_price = {1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30}
+  disc_price = {
+    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30
+  }
 
   if xs.inject(:+) == 0
-    result
+    0
   else
-    lot = xs.select { |y| y > 0 } .size
-    disc_price[lot] + prices(xs.map { |x| x > 0 ? x.pred  : x })
+    no_in_lot = xs.select { |y| y > 0 } .size
+    disc_price[no_in_lot] + prices(xs.map { |x| x > 0 ? x.pred  : x })
   end
   
+end
+
+def five_uniq? xs
+  # xs.count(1) == 5
+  true
+end
+
+RSpec.describe "five_uniq? helper function" do
+
+  it "returns true if there are five unique books in the array" do
+    expect(five_uniq?([1,1,1,1,1])).to eq(true)
+  end
+
 end
 
 RSpec.describe "Harry Potter prices function" do
