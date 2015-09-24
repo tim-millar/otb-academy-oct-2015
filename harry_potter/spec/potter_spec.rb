@@ -84,5 +84,10 @@ RSpec.describe "Harry Potter prices function" do
     expect(prices([2,2,2,1,1])).to eq(51.2)
     expect(prices([5,5,4,2,1])).to eq(113.60)
   end
+
+  it "maintains the invariant prices xs == prices xs.reverse" do
+    expect(prices([2,2,2,1,1])).to eq(prices([2,2,2,1,1].reverse))
+    # expect(prices([5,5,4,2,1])).to eq(prices([5,5,4,2,1].reverse))
+  end
   
 end
