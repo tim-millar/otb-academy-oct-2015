@@ -22,6 +22,27 @@ def five_uniq? xs
   xs.count(1) == 5
 end
 
+def three_uniq? xs
+  # xs.count(1) == 3
+  true
+end
+
+RSpec.describe "three_uniq? helper function" do
+
+  it "returns true if there are three unique books in the array" do
+    expect(five_uniq?([1,0,1,1,0])).to eq(true)
+    expect(five_uniq?([0,0,1,1,1])).to eq(true)
+  end
+
+  it "returns false of there are not three unique books in the array" do
+    expect(five_uniq?([2,1,3,0,1])).to eq(false)
+    expect(five_uniq?([2,1,1,1,1])).to eq(false)
+    expect(five_uniq?([31,0,0,1,2])).to eq(false)
+    expect(five_uniq?([2,10,3,40,1])).to eq(false)
+  end
+
+end
+
 RSpec.describe "five_uniq? helper function" do
 
   it "returns true if there are five unique books in the array" do
