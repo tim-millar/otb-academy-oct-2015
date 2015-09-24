@@ -18,27 +18,47 @@ def prices xs
   
 end
 
+def corner_case? xs
+  true
+end
+
 def five_uniq? xs
   xs.count(1) == 5
 end
 
 def three_uniq? xs
-  # xs.count(1) == 3
-  true
+  xs.count(1) == 3
 end
+
+RSpec.describe "corner_case? helper function" do
+
+  it "returns true if there are five and three unique books in the array" do
+    expect(three_uniq?([1,2,2,1,2])).to eq(true)
+    expect(three_uniq?([2,2,2,1,1])).to eq(true)
+  end
+
+  it "returns false of there are not three unique books in the array" do
+    expect(three_uniq?([2,1,3,0,1])).to eq(false)
+    expect(three_uniq?([2,1,1,1,1])).to eq(false)
+    expect(three_uniq?([31,0,0,1,2])).to eq(false)
+    expect(three_uniq?([2,10,3,40,1])).to eq(false)
+  end
+
+end
+
 
 RSpec.describe "three_uniq? helper function" do
 
   it "returns true if there are three unique books in the array" do
-    expect(five_uniq?([1,0,1,1,0])).to eq(true)
-    expect(five_uniq?([0,0,1,1,1])).to eq(true)
+    expect(three_uniq?([1,0,1,1,0])).to eq(true)
+    expect(three_uniq?([0,0,1,1,1])).to eq(true)
   end
 
   it "returns false of there are not three unique books in the array" do
-    expect(five_uniq?([2,1,3,0,1])).to eq(false)
-    expect(five_uniq?([2,1,1,1,1])).to eq(false)
-    expect(five_uniq?([31,0,0,1,2])).to eq(false)
-    expect(five_uniq?([2,10,3,40,1])).to eq(false)
+    expect(three_uniq?([2,1,3,0,1])).to eq(false)
+    expect(three_uniq?([2,1,1,1,1])).to eq(false)
+    expect(three_uniq?([31,0,0,1,2])).to eq(false)
+    expect(three_uniq?([2,10,3,40,1])).to eq(false)
   end
 
 end
