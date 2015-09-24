@@ -115,6 +115,8 @@ RSpec.describe "Harry Potter prices function" do
     expect(prices([1,2,2,0,1])).to eq(40.80)
     expect(prices([7,2,0,0,3])).to eq(90.40)
     expect(prices([0,15,0,2,0])).to eq(134.4)
+
+    expect(prices([2,2,2,1,1])).to eq(51.2)
   end
   
 end
