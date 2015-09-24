@@ -12,7 +12,7 @@ def prices xs
   if xs.inject(:+) == 0
     0
   elsif corner_case? xs
-    discounted_price[:corner_price] + prices(update_corner(xs))
+    discounted_price[:corner_price] + prices(update_corner_rec(xs))
   else
     discounted_price[non_zeroes(xs)] + prices(update_array(xs))
   end
@@ -27,6 +27,20 @@ end
 
 def non_zeroes xs
   xs.select { |y| y > 0 } .size
+end
+
+def update_corner_rec xs
+  def update_helper i, xs
+    if i == 3 || xs.empty?
+      xs
+    elsif xs[0] > 1
+      xs[0] -= 1
+      xs[0,1] + update_helper(i+1, xs[1,-1])
+    else
+      xs[0,1] + update_helper(i, xs[1,-1])
+    end
+  end
+  update_helper(0, xs)
 end
 
 def update_corner xs
