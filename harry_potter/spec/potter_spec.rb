@@ -13,19 +13,21 @@ def prices xs
     xs.select { |y| y > 0 } .size
   end
 
-  def corner_case? xs
+  def corner_case? xs    # possible problem here
     non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
   end
 
-  def update_corner xs
+  def update_corner xs   # definite problem here
     def update_helper(i, xs)
+      p xs
       if i == 3 || xs.empty?
         xs
       elsif xs[0] > 0
+        p "updating ...#{xs[0]}"
         xs[0] -= 1
         xs[0,1] + update_helper(i+1, xs[1..-1])
       else
-        xs[0,1] + update_helper(i, xs[1..-1])
+        xs[0,1] + update_helper(i,   xs[1..-1])
       end
     end
     update_helper(0, update_array(xs))
@@ -38,6 +40,7 @@ def prices xs
   if xs.inject(:+) == 0
     0
   elsif corner_case? xs
+    p "corner"
     discounted_price[:corner_price] + prices(update_corner(xs))
   else
     discounted_price[non_zeroes(xs)] + prices(update_array(xs))
@@ -74,6 +77,7 @@ RSpec.describe "Harry Potter prices function" do
   
   it "discounts price by 25% if four different books are bought" do
     expect(prices([1,1,1,1,1])).to eq(30)
+    expect(prices([3,3,3,3,3])).to eq(90)
   end
 
   it "handles combinations of books properly" do
@@ -85,7 +89,7 @@ RSpec.describe "Harry Potter prices function" do
     expect(prices([5,5,4,2,1])).to eq(113.60)
   end
 
-  it "maintains the invariant prices xs == prices xs.reverse" do
+  it "maintains the invariant: prices xs == prices xs.reverse" do
     expect(prices([2,2,2,1,1])).to eq(prices([2,2,2,1,1].reverse))
     expect(prices([5,5,4,2,1])).to eq(prices([5,5,4,2,1].reverse))
   end

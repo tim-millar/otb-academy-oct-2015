@@ -5,18 +5,6 @@ def prices_procs xs
   raise ArgumentError,
         "array must be of length 5" unless xs.size == 5
 
-  discounted_price = {
-    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
-  }
-
-  if xs.inject(:+) == 0
-    0
-  elsif corner_case[xs]
-    discounted_price[:corner_price] + prices_procs(update_corner[xs])
-  else
-    discounted_price[non_zeroes[xs]] + prices_procs(update_array[xs])
-  end
-
   non_zeroes = ->(xs) {
     xs.select { |y| y > 0 } .size
   }
@@ -42,6 +30,18 @@ def prices_procs xs
     }
     update_helper[0, xs]
   }
+
+  discounted_price = {
+    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
+  }
+
+  if xs.inject(:+) == 0
+    0
+  elsif corner_case[xs]
+    discounted_price[:corner_price] + prices_procs(update_corner[xs])
+  else
+    discounted_price[non_zeroes[xs]] + prices_procs(update_array[xs])
+  end
 
 end
 
