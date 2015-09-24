@@ -5,21 +5,6 @@ def prices xs
   raise ArgumentError,
         "array must be of length 5" unless xs.size == 5
 
-  discounted_price = {
-    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
-  }
-
-  if xs.inject(:+) == 0
-    0
-  elsif corner_case? xs
-    discounted_price[:corner_price] + prices(update_corner(xs))
-  else
-    discounted_price[non_zeroes(xs)] + prices(update_array(xs))
-  end
-
-
-  ## helper methods ==================
-
   def update_array xs
     xs.map { |x| x > 0 ? x.pred  : x }
   end
@@ -45,21 +30,17 @@ def prices xs
     end
     update_helper(0, update_array(xs))
   end
-  
-end
 
-RSpec.describe "corner_case? helper function" do
+  discounted_price = {
+    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
+  }
 
-  it "returns true if there's a set of five & three unique books in the array" do
-    expect(corner_case?([1,2,2,1,2])).to eq(true)
-    expect(corner_case?([2,2,2,1,1])).to eq(true)
-    expect(corner_case?([2,10,3,40,1])).to eq(true)
-  end
-
-  it "returns false if there's not a set of five & three unique books in the array" do
-    expect(corner_case?([2,1,3,0,1])).to eq(false)
-    expect(corner_case?([2,1,1,1,1])).to eq(false)
-    expect(corner_case?([31,0,0,1,2])).to eq(false)
+  if xs.inject(:+) == 0
+    0
+  elsif corner_case? xs
+    discounted_price[:corner_price] + prices(update_corner(xs))
+  else
+    discounted_price[non_zeroes(xs)] + prices(update_array(xs))
   end
 
 end

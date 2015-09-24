@@ -151,5 +151,21 @@ RSpec.describe "five_uniq? helper function" do
     expect(five_uniq?([2,10,3,40,1])).to eq(false)
   end
   
+end
+
+RSpec.describe "corner_case? helper function" do
+
+  it "returns true if there's a set of five & three unique books in the array" do
+    expect(corner_case?([1,2,2,1,2])).to eq(true)
+    expect(corner_case?([2,2,2,1,1])).to eq(true)
+    expect(corner_case?([2,10,3,40,1])).to eq(true)
+  end
+
+  it "returns false if there's not a set of five & three unique books in the array" do
+    expect(corner_case?([2,1,3,0,1])).to eq(false)
+    expect(corner_case?([2,1,1,1,1])).to eq(false)
+    expect(corner_case?([31,0,0,1,2])).to eq(false)
+  end
 
 end
+
