@@ -5,19 +5,21 @@ def prices xs
   raise ArgumentError,
         "array must be of length 5" unless xs.size == 5
 
-  disc_price = {
-    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30
+  discounted_price = {
+    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
   }
 
   if xs.inject(:+) == 0
     0
   elsif corner_case? xs
-    51.2 + prices(update_corner(xs))
+    discounted_price[:corner_price] + prices(update_corner(xs))
   else
-    no_in_lot = non_zeroes(xs)
-    disc_price[no_in_lot] + prices(update_array(xs))
+    discounted_price[non_zeroes(xs)] + prices(update_array(xs))
   end
+  
 end
+
+## helpers
 
 def update_array xs
   xs.map { |x| x > 0 ? x.pred  : x }
