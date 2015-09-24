@@ -12,71 +12,52 @@ def prices xs
   if xs.inject(:+) == 0
     0
   elsif corner_case? xs
-    51.2
+    51.2 + prices(update_corner(xs))
   else
-    no_in_lot = xs.select { |y| y > 0 } .size
-    disc_price[no_in_lot] + prices(xs.map { |x| x > 0 ? x.pred  : x })
+    no_in_lot = non_zeroes(xs)
+    disc_price[no_in_lot] + prices(update_array(xs))
   end
-  
+end
+
+def update_array xs
+  xs.map { |x| x > 0 ? x.pred  : x }
+end
+
+def non_zeroes xs
+  xs.select { |y| y > 0 } .size
+end
+
+def update_corner xs
+  # aaaaarrrrrrgrggggghhh
+  corner_removed = update_array(xs)
+  flag, idx = 0, 0
+  while flag < 3
+    if corner_removed[idx] > 0
+      corner_removed[idx] -= 1
+      flag += 1
+    end
+    idx += 1
+  end
+  corner_removed
 end
 
 def corner_case? xs
-  xs.count(1) == 2 && xs.count(2) == 3
-end
-
-def five_uniq? xs
-  xs.count(1) == 5
-end
-
-def three_uniq? xs
-  xs.count(1) == 3
+  non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
 end
 
 RSpec.describe "corner_case? helper function" do
 
-  it "returns true if there are five and three unique books in the array" do
+  it "pred returns true if there are five and three unique books in the array" do
     expect(corner_case?([1,2,2,1,2])).to eq(true)
     expect(corner_case?([2,2,2,1,1])).to eq(true)
+    expect(corner_case?([2,10,3,40,1])).to eq(true)
   end
 
-  it "returns false of there are not three unique books in the array" do
+  it "pred returns false of there are not three unique books in the array" do
     expect(corner_case?([2,1,3,0,1])).to eq(false)
     expect(corner_case?([2,1,1,1,1])).to eq(false)
     expect(corner_case?([31,0,0,1,2])).to eq(false)
-    expect(corner_case?([2,10,3,40,1])).to eq(false)
   end
-
-end
-
-RSpec.describe "three_uniq? helper function" do
-
-  it "returns true if there are three unique books in the array" do
-    expect(three_uniq?([1,0,1,1,0])).to eq(true)
-    expect(three_uniq?([0,0,1,1,1])).to eq(true)
-  end
-
-  it "returns false of there are not three unique books in the array" do
-    expect(three_uniq?([2,1,3,0,1])).to eq(false)
-    expect(three_uniq?([2,1,1,1,1])).to eq(false)
-    expect(three_uniq?([31,0,0,1,2])).to eq(false)
-    expect(three_uniq?([2,10,3,40,1])).to eq(false)
-  end
-
-end
-
-RSpec.describe "five_uniq? helper function" do
-
-  it "returns true if there are five unique books in the array" do
-    expect(five_uniq?([1,1,1,1,1])).to eq(true)
-  end
-
-  it "returns false of there are not five unique books in the array" do
-    expect(five_uniq?([2,1,3,0,1])).to eq(false)
-    expect(five_uniq?([2,1,1,1,1])).to eq(false)
-    expect(five_uniq?([31,0,0,1,2])).to eq(false)
-    expect(five_uniq?([2,10,3,40,1])).to eq(false)
-  end
-  
 
 end
 
@@ -117,6 +98,7 @@ RSpec.describe "Harry Potter prices function" do
     expect(prices([0,15,0,2,0])).to eq(134.4)
 
     expect(prices([2,2,2,1,1])).to eq(51.2)
+    expect(prices([5,5,4,2,1])).to eq(113.60)
   end
   
 end
