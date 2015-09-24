@@ -1,12 +1,17 @@
 # coding: utf-8
 
 def prices xs
-  return 0    if xs.inject(:+) == 0
-  return 8    if xs.inject(:+) == 1
-  return 15.2 if xs.inject(:+) == 2
-  return 21.6 if xs.inject(:+) == 3
-  return 25.6 if xs.inject(:+) == 4
-  return 30   if xs.inject(:+) == 5
+  
+  result = 0
+  disc_price = {1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30}
+
+  if xs.inject(:+) == 0
+    result
+  else
+    lot = xs.select { |y| y > 0 } .size
+    disc_price[lot] + prices(xs.map { |x| x > 0 ? x.pred  : x })
+  end
+  
 end
 
 RSpec.describe "Harry Potter prices function" do
@@ -38,6 +43,10 @@ RSpec.describe "Harry Potter prices function" do
   
   it "discounts price by 25% if four different books are bought" do
     expect(prices([1,1,1,1,1])).to eq(30)
+  end
+
+  it "handles combinations of books properly" do
+    expect(prices([1,2,2,1,0,1])).to eq(40.80)
   end
   
 end
