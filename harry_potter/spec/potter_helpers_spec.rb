@@ -12,7 +12,7 @@ def corner_case? xs    # possible problem here
   non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
 end
 
-def update_corner xs   # definite problem here
+def test xs   # definite problem here
   def update_helper(i, xs)
     p xs
     if i == 3 || xs.empty?
@@ -25,7 +25,13 @@ def update_corner xs   # definite problem here
       xs[0,1] + update_helper(i,   xs[1..-1])
     end
   end
-  update_helper(0, update_array(xs))
+  update_helper(0, update_array(xs.sort.reverse)) # won't work here
+end
+
+def update_corner xs
+  removed_five = update_array xs
+  take_from = removed_five.sort.reverse.take 3
+  removed_five.map { |x| take_from.include?(x) ? x.pred : x }
 end
 
 
@@ -37,5 +43,7 @@ RSpec.describe "Harry Potter prices helper functions" do
 
     expect([1,1,1,1,1]).to eq(update_corner([3,3,3,2,2]))
     expect([1,1,1,1,1]).to eq(update_corner([3,3,3,2,2].reverse))
+
+    expect([0,4,2,0,7]).to eq(update_corner([1,6,4,1,9]))
   end
 end
