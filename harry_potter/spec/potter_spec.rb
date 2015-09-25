@@ -6,18 +6,22 @@ class HarryPotter
     new.prices order
   end
 
-  :private
+  :private # =============================================
   
   def initialize
   end
 
   def prices xs
-    
     raise ArgumentError,
           "array must be of length 5" unless xs.size == 5
 
     discounted_price = {
-      1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
+      1 => 8,
+      2 => 15.2,
+      3 => 21.6,
+      4 => 25.6,
+      5 => 30,
+      :corner_price => 51.20
     }
 
     if xs.inject(:+) == 0
@@ -27,7 +31,6 @@ class HarryPotter
     else
       discounted_price[non_zeroes(xs)] + prices(update_array(xs))
     end
-
   end
   
   def update_array xs
@@ -102,7 +105,6 @@ RSpec.describe "Harry Potter prices function" do
     expect(HarryPotter.price_order([2,2,2,1,1])).to eq(HarryPotter.price_order([2,2,2,1,1].shuffle))
     expect(HarryPotter.price_order([5,5,4,2,1])).to eq(HarryPotter.price_order([5,5,4,2,1].shuffle))
     expect(HarryPotter.price_order([5,4,3,2,1])).to eq(HarryPotter.price_order([5,4,3,2,1].shuffle))
-
   end
   
 end
