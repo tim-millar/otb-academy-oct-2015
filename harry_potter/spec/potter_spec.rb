@@ -5,6 +5,41 @@ def prices xs
   raise ArgumentError,
         "array must be of length 5" unless xs.size == 5
 
+  ## =================================
+
+  def update_array xs
+    xs.map { |x| x > 0 ? x.pred  : x }
+  end
+
+  def non_zeroes xs
+    xs.select { |y| y > 0 }.size
+  end
+
+  def corner_case? xs    # possible problem here
+    non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
+  end
+
+  def update_corner xs
+    take_from = update_array(xs).sort.reverse.take 3
+    update_array(xs).map { |x| take_from.include?(x) ? x.pred : x }
+  end
+
+  # def update_corner xs   # definite problem here
+  #   def update_helper(i, xs)
+  #     p xs
+  #     if i == 3 || xs.empty?
+  #       xs
+  #     elsif xs[0] > 0
+  #       p "updating ...#{xs[0]}"
+  #       xs[0] -= 1
+  #       xs[0,1] + update_helper(i+1, xs[1..-1])
+  #     else
+  #       xs[0,1] + update_helper(i,   xs[1..-1])
+  #     end
+  #   end
+  #   update_helper(0, update_array(xs))
+  # end
+
   discounted_price = {
     1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
   }
@@ -12,7 +47,7 @@ def prices xs
   if xs.inject(:+) == 0
     0
   elsif corner_case? xs
-    # p "corner"
+    p "corner"
     discounted_price[:corner_price] + prices(update_corner(xs))
   else
     discounted_price[non_zeroes(xs)] + prices(update_array(xs))
@@ -20,35 +55,6 @@ def prices xs
 
 end
 
-## =================================
-
-def update_array xs
-  xs.map { |x| x > 0 ? x.pred  : x }
-end
-
-def non_zeroes xs
-  xs.select { |y| y > 0 }.size
-end
-
-def corner_case? xs    # possible problem here
-  non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
-end
-
-def update_corner xs   # definite problem here
-  def update_helper(i, xs)
-    p xs
-    if i == 3 || xs.empty?
-      xs
-    elsif xs[0] > 0
-      p "updating ...#{xs[0]}"
-      xs[0] -= 1
-      xs[0,1] + update_helper(i+1, xs[1..-1])
-    else
-      xs[0,1] + update_helper(i,   xs[1..-1])
-    end
-  end
-  update_helper(0, update_array(xs))
-end
 
 
 RSpec.describe "Harry Potter prices function" do

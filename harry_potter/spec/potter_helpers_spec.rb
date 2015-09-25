@@ -12,26 +12,31 @@ def corner_case? xs    # possible problem here
   non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
 end
 
-def test xs   # definite problem here
-  def update_helper(i, xs)
-    p xs
-    if i == 3 || xs.empty?
-      xs
-    elsif xs[0] > 0
-      p "updating ...#{xs[0]}"
-      xs[0] -= 1
-      xs[0,1] + update_helper(i+1, xs[1..-1])
-    else
-      xs[0,1] + update_helper(i,   xs[1..-1])
-    end
-  end
-  update_helper(0, update_array(xs.sort.reverse)) # won't work here
+# def test xs   # definite problem here
+#   def update_helper(i, xs)
+#     p xs
+#     if i == 3 || xs.empty?
+#       xs
+#     elsif xs[0] > 0
+#       p "updating ...#{xs[0]}"
+#       xs[0] -= 1
+#       xs[0,1] + update_helper(i+1, xs[1..-1])
+#     else
+#       xs[0,1] + update_helper(i,   xs[1..-1])
+#     end
+#   end
+#   update_helper(0, update_array(xs.sort.reverse)) # won't work here
+# end
+
+def update_corner_ xs
+  initial_update = update_array xs
+  take_from = initial_update.sort.reverse.take 3
+  initial_update.map { |x| take_from.include?(x) ? x.pred : x }
 end
 
 def update_corner xs
-  removed_five = update_array xs
-  take_from = removed_five.sort.reverse.take 3
-  removed_five.map { |x| take_from.include?(x) ? x.pred : x }
+  take_from = update_array(xs).sort.reverse.take 3
+  update_array(xs).map { |x| take_from.include?(x) ? x.pred : x }
 end
 
 
