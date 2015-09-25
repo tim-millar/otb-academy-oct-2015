@@ -26,18 +26,18 @@ class HarryPotter
     if non_zeroes(xs) == 0
       0
     elsif corner_case? xs
-      @@discounted_price[:corner_price] + prices(update_corner(xs))
+      @@discounted_price[:corner_price]  + prices(update_corner(xs))
     else
       @@discounted_price[non_zeroes(xs)] + prices(update_array(xs))
     end
   end
 
   def non_zeroes xs
-    xs.select { |y| y > 0 }.size
+    xs.select { |x| x.nonzero? }.size
   end
   
   def update_array xs
-    xs.map { |x| x > 0 ? x.pred  : x }
+    xs.map { |x| x.nonzero? ? x.pred : x }
   end
 
   def corner_case? xs
@@ -45,8 +45,9 @@ class HarryPotter
   end
 
   def update_corner xs
-    take_from = update_array(xs).sort.reverse.take 3
-    update_array(xs).map { |x| take_from.include?(x) ? x.pred : x }
+    fst_update = update_array(xs)
+    top_three  = fst_update.sort.reverse.take 3
+    fst_update.map { |x| top_three.include?(x) ? x.pred : x }
   end
 
 end
