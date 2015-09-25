@@ -50,48 +50,6 @@ class HarryPotter
 end
 
 
-def prices xs
-  
-  raise ArgumentError,
-        "array must be of length 5" unless xs.size == 5
-
-  ## =================================
-
-  def update_array xs
-    xs.map { |x| x > 0 ? x.pred  : x }
-  end
-
-  def non_zeroes xs
-    xs.select { |y| y > 0 }.size
-  end
-
-  def corner_case? xs
-    non_zeroes(xs) == 5 && xs.select { |x| x > xs.min }.size >= 3
-  end
-
-  def update_corner xs
-    take_from = update_array(xs).sort.reverse.take 3
-    update_array(xs).map { |x| take_from.include?(x) ? x.pred : x }
-  end
-
-  ## ==================================
-
-  discounted_price = {
-    1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
-  }
-
-  if xs.inject(:+) == 0
-    0
-  elsif corner_case? xs
-    discounted_price[:corner_price] + prices(update_corner(xs))
-  else
-    discounted_price[non_zeroes(xs)] + prices(update_array(xs))
-  end
-
-end
-
-
-
 RSpec.describe "Harry Potter prices function" do
 
   it "costs nothing to buy no books" do
