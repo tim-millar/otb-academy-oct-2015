@@ -23,7 +23,7 @@ class HarryPotter
     raise ArgumentError,
           "array must be of length 5" unless xs.size == 5
 
-    if xs.inject(:+) == 0
+    if non_zeroes(xs) == 0
       0
     elsif corner_case? xs
       @@discounted_price[:corner_price] + prices(update_corner(xs))
