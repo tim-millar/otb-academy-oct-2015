@@ -1,5 +1,14 @@
 ## Harry Potter HW, Ruby Academy, Autumn 2015
 
+class HarryPotter
+
+  def self.price_books(order)
+    :whatever
+  end
+  
+end
+
+
 def prices_procs xs
   
   raise ArgumentError,

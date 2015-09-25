@@ -15,8 +15,8 @@ def prices xs
     xs.select { |y| y > 0 }.size
   end
 
-  def corner_case? xs    # possible problem here
-    non_zeroes(xs) == 5 && non_zeroes(update_array(xs)) >= 3
+  def corner_case? xs
+    non_zeroes(xs) == 5 && xs.select { |x| x > xs.min }.size >= 3
   end
 
   def update_corner xs
@@ -24,21 +24,7 @@ def prices xs
     update_array(xs).map { |x| take_from.include?(x) ? x.pred : x }
   end
 
-  # def update_corner xs   # definite problem here
-  #   def update_helper(i, xs)
-  #     p xs
-  #     if i == 3 || xs.empty?
-  #       xs
-  #     elsif xs[0] > 0
-  #       p "updating ...#{xs[0]}"
-  #       xs[0] -= 1
-  #       xs[0,1] + update_helper(i+1, xs[1..-1])
-  #     else
-  #       xs[0,1] + update_helper(i,   xs[1..-1])
-  #     end
-  #   end
-  #   update_helper(0, update_array(xs))
-  # end
+  ## ==================================
 
   discounted_price = {
     1 => 8, 2 => 15.2, 3 => 21.6, 4 => 25.6, 5 => 30, :corner_price => 51.20
@@ -47,7 +33,6 @@ def prices xs
   if xs.inject(:+) == 0
     0
   elsif corner_case? xs
-    p "corner"
     discounted_price[:corner_price] + prices(update_corner(xs))
   else
     discounted_price[non_zeroes(xs)] + prices(update_array(xs))
@@ -98,9 +83,17 @@ RSpec.describe "Harry Potter prices function" do
     expect(prices([5,5,4,2,1])).to eq(113.60)
   end
 
-  it "maintains the invariant: prices xs == prices xs.reverse" do
+  it "maintains invariant: prices xs == prices xs.reverse == prices xs.shuffle" do
+    expect(prices([3,3,3,4,3])).to eq(prices([3,3,3,4,3].reverse))
     expect(prices([2,2,2,1,1])).to eq(prices([2,2,2,1,1].reverse))
     expect(prices([5,5,4,2,1])).to eq(prices([5,5,4,2,1].reverse))
+    expect(prices([5,4,3,2,1])).to eq(prices([5,4,3,2,1].reverse))
+
+    expect(prices([3,3,3,4,3])).to eq(prices([3,3,3,4,3].shuffle))
+    expect(prices([2,2,2,1,1])).to eq(prices([2,2,2,1,1].shuffle))
+    expect(prices([5,5,4,2,1])).to eq(prices([5,5,4,2,1].shuffle))
+    expect(prices([5,4,3,2,1])).to eq(prices([5,4,3,2,1].shuffle))
+
   end
   
 end
