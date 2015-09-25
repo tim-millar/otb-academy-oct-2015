@@ -89,6 +89,7 @@ RSpec.describe "Harry Potter prices function" do
 
     expect(HarryPotter.price_order([2,2,2,1,1])).to eq(51.2)
     expect(HarryPotter.price_order([5,5,4,2,1])).to eq(113.60)
+    expect(HarryPotter.price_order([5,5,4,5,4])).to eq(141.2)
   end
 
   it "maintains invariant: HarryPotter.price_order xs == HarryPotter.price_order xs.reverse == HarryPotter.price_order xs.shuffle" do
