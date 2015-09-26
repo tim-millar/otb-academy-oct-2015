@@ -1,6 +1,46 @@
 ## Scatch Pad for Bowling Project
 ## ------------------------------
 
+def bowling_scores(game)
+  score_game(build_total_score_list(game))
+end
+
+def score_game(xs)
+  xs.inject(:+)
+end
+
+def build_total_score_list xs
+  if last_frame? xs
+    xs
+  elsif strike? xs
+    handle_strike(xs) + build_total_score_list(xs[1..-1])
+  elsif spare? xs
+    handle_spare(xs)  + build_total_score_list(xs[2..-1])
+  else
+    handle_frame(xs)  + build_total_score_list(xs[2..-1])
+  end
+end
+
+def strike?(xs)
+  xs[0] == 0
+end
+
+def spare?(xs)
+  xs[0] + xs[1] == 10
+end
+
+def handle_strike(xs)
+  xs[0,1] + xs[1,2]
+end
+
+def handle_spare(xs)
+  xs[0,2] + xs[2,1]
+end
+
+def handle_frame(xs)
+  xs[0,2]
+end
+
 def rec_score_helper xs
   if xs.length <= 3
     xs
