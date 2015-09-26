@@ -22,14 +22,17 @@ class HarryPotter
   def prices xs
     raise ArgumentError,
           "array must be of length 5" unless xs.size == 5
-
-    if non_zeroes(xs) == 0
+    if no_books? xs 
       0
     elsif corner_case? xs
       @@discounted_price[:corner_price]  + prices(update_corner(xs))
     else
       @@discounted_price[non_zeroes(xs)] + prices(update_array(xs))
     end
+  end
+
+  def no_books? xs
+    non_zeroes(xs) == 0
   end
 
   def non_zeroes xs
@@ -45,9 +48,9 @@ class HarryPotter
   end
 
   def update_corner xs
-    fst_update = update_array(xs)
-    top_three  = fst_update.sort.reverse.take 3
-    fst_update.map { |x| top_three.include?(x) ? x.pred : x }
+    five_removed = update_array(xs)
+    top_three = five_removed.sort.reverse.take 3
+    five_removed.map { |x| top_three.include?(x) ? x.pred : x }
   end
 
 end

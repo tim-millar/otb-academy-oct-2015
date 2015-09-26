@@ -58,9 +58,14 @@ class PotterScratch
 
   end
   
-  
 end
 
+
+def update_corner xs
+  five_removed = update_array(xs)
+  top_three  = five_removed.sort.reverse.take 3
+  five_removed.map { |x| top_three.include?(x) ? x.pred : x }
+end
 
 class FooBar
 
