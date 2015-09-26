@@ -106,6 +106,9 @@ RSpec.describe "Bowling Scores" do
 
     rolls4 = [3,3,3,4,5,5,2,1,6,4,3,0,0,10,3,4,1,9,4,6,2]
     expect(Bowling.total_score(rolls4)).to eq(90)
+
+    rolls5 = [3,5,3,1,6,2,1,1,0,10,8,1,2,0,10,5,0,6,4,4]
+    expect(Bowling.total_score(rolls5)).to eq(85)
   end
 
   it "scores the maxiumum correctly" do
