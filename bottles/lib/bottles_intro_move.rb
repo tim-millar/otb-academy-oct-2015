@@ -1,9 +1,9 @@
 class Bottles
   def verse(num)
-    bottle_num = factory(num)
-    nextbnum = factory(bottle_num.decrement)
-            "#{bottle_num.no_more.capitalize} #{bottle_num.bottles_or_bottle} of beer on the wall, #{bottle_num.no_more} #{bottle_num.bottles_or_bottle} of beer.\n" +
-              "#{bottle_num.action}, #{nextbnum.no_more()} #{nextbnum.bottles_or_bottle()} of beer on the wall.\n"
+    bottle_num = create_bottle(num)
+    next_bottle_num = create_bottle(bottle_num.decrement)
+            "#{bottle_num.no_more.capitalize} #{bottle_num.bottles_or_bottle}of beer on the wall, #{bottle_num.no_more} #{bottle_num.bottles_or_bottle}of beer.\n" +
+              "#{bottle_num.action}, #{next_bottle_num.no_more()} #{next_bottle_num.bottles_or_bottle()}of beer on the wall.\n"
 
   end
 
@@ -17,11 +17,13 @@ class Bottles
     verses(99,0)
   end
 
-  def factory(num)
+  def create_bottle(num)
     if num == 0
       BottleZero.new(num)
     elsif num == 1
       BottleOne.new(num)
+    elsif num == 6
+      BottleSix.new(num)
     else
       BottleNum.new(num)
     end
@@ -48,7 +50,7 @@ class BottleNum
   end
   
   def bottles_or_bottle
-    "bottles"
+    "bottles "
   end
 
   def decrement
@@ -68,7 +70,7 @@ class BottleOne < BottleNum
   end
   
   def bottles_or_bottle
-    "bottle"
+    "bottle "
   end
 
 end
@@ -87,4 +89,15 @@ class BottleZero < BottleNum
     99
   end
 
+end
+
+class BottleSix < BottleNum
+
+  def no_more
+    "one six-pack"
+  end
+
+  def bottles_or_bottle
+    ""
+  end
 end
