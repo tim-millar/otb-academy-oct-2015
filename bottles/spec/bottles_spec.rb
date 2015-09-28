@@ -1,4 +1,4 @@
-require 'bottles'
+require 'bottles_intro_move'
 
 describe "singing 99 bottles of beer" do
 
